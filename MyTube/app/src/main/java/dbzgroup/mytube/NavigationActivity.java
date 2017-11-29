@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -35,6 +36,7 @@ public class NavigationActivity extends AppCompatActivity {
                 case R.id.navigation_logout:
                     mTextMessage.setText(R.string.title_logout);
                     mAuth.signOut();
+                    Toast.makeText(NavigationActivity.this,"Logged Out",Toast.LENGTH_SHORT).show();
                     return true;
             }
             return false;

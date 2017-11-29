@@ -101,6 +101,7 @@ public class SignIn extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+                Toast.makeText(SignIn.this,"Sign In Successful...",Toast.LENGTH_SHORT).show();
             }
             if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient);
