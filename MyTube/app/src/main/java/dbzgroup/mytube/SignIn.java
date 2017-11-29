@@ -36,6 +36,7 @@ public class SignIn extends AppCompatActivity {
          * DISPLAY Google Sign-in button if null... Otherwise launch the main activity.
          */
 
+        /*
         if (account == null) {
             Intent mainIntent = new Intent(SignIn.this, MainActivity.class);
             startActivity(mainIntent);
@@ -44,6 +45,7 @@ public class SignIn extends AppCompatActivity {
         else {
             
         }
+        */
         //updateUI(account);
     }
 }
