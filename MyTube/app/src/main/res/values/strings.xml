@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MyTube</string>
     <string name="my_tube">My Tube</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_search">Search</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_logout">Log Out</string>
 </resources>
