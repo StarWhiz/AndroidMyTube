@@ -70,12 +70,9 @@ public class NavigationActivity extends AppCompatActivity {
             }
         };
 
-        /*
-        RecyclerView video_rv = (RecyclerView)findViewById(R.id.video_recycler_view);
-        video_rv.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this); // Tai: do we want this to be the context? or do we want card view...
-        video_rv.setLayoutManager(llm);
-        */
+
+
+
 
         
 
