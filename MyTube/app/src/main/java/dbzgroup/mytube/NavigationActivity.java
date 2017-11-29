@@ -60,6 +60,7 @@ public class NavigationActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        // Logout Listener
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -70,5 +71,8 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         };
+
+        mListView = (ListView) findViewById(R.id.recipe_list_view);
+
     }
 }
