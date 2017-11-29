@@ -20,10 +20,6 @@ public class NavigationActivity extends AppCompatActivity {
     private TextView mTextMessage;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private ListView mListView;
-
-    Parser parser = new Parser();
-    //String url = parser.generateRequest(CHANNEL_ID, 20, Parser.ORDER_DATE, API_KEY);
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,8 +69,7 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         };
-
-        mListView = (ListView) findViewById(R.id.recipe_list_view);
+        
 
     }
 }
