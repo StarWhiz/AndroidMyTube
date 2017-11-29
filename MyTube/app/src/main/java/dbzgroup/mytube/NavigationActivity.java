@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 public class NavigationActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
-    private Button mLogOutBtn;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private ListView mListView;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
