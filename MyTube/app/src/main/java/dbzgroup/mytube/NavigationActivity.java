@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -67,6 +69,14 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         };
+
+        /*
+        RecyclerView video_rv = (RecyclerView)findViewById(R.id.video_recycler_view);
+        video_rv.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this); // Tai: do we want this to be the context? or do we want card view...
+        video_rv.setLayoutManager(llm);
+        */
+
         
 
     }
