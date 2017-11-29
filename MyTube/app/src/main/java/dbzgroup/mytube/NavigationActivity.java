@@ -28,10 +28,8 @@ public class NavigationActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) { //Fragment Selector
                 case R.id.navigation_search:
-                    mTextMessage.setText(R.string.title_search);
                     return true;
                 case R.id.navigation_favorites:
-                    mTextMessage.setText(R.string.title_favorites);
                     return true;
                 case R.id.navigation_logout:
                     mAuth.signOut();
