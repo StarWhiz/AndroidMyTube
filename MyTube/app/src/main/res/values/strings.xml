@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyTube</string>
+    <string name="app_name">My Tube</string>
     <string name="my_tube">My Tube</string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="title_search">Search</string>
