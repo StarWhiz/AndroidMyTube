@@ -1,4 +1,4 @@
-package dbzgroup.mytube;
+package dbzgroup.mytube.Model;
 
 /**
  * Created by Froz on 11/29/2017.
