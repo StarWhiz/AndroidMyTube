@@ -11,7 +11,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.prof.youtubeparser.Parser;
+import com.prof.youtubeparser.models.videos.Video;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class NavigationActivity extends AppCompatActivity {
@@ -21,6 +22,8 @@ public class NavigationActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private ListView mListView;
 
+    Parser parser = new Parser();
+    //String url = parser.generateRequest(CHANNEL_ID, 20, Parser.ORDER_DATE, API_KEY);
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -35,7 +38,6 @@ public class NavigationActivity extends AppCompatActivity {
                     mTextMessage.setText(R.string.title_favorites);
                     return true;
                 case R.id.navigation_logout:
-                    mTextMessage.setText(R.string.title_logout);
                     mAuth.signOut();
                     Toast.makeText(NavigationActivity.this,"Logged Out",Toast.LENGTH_SHORT).show();
                     return true;
