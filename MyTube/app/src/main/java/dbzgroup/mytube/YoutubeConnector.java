@@ -64,6 +64,7 @@ public class YoutubeConnector {
             for(SearchResult result:results){
                 MyVideo myVideo = new MyVideo();
                 myVideo.setTitle(result.getSnippet().getTitle());
+                myVideo.setVideoID(result.getId().getVideoId().toString());
 
                 /**
                  * This function is needed to get ViewCount and Other Statistics

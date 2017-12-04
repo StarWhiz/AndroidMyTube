@@ -9,6 +9,9 @@ public class MyVideo {
     private String numberOfViews;
     private String thumbnailURL;
     private String pubDate;
+    private String videoID;
+
+
 
     public MyVideo(String title, String numberOfViews, String thumbnailURL, String pubDate) {
         this.title = title;
@@ -19,6 +22,13 @@ public class MyVideo {
     public MyVideo(){
     }
 
+    public String getVideoID() {
+        return videoID;
+    }
+
+    public void setVideoID(String videoID) {
+        this.videoID = videoID;
+    }
     public String getTitle() {
         return title;
     }

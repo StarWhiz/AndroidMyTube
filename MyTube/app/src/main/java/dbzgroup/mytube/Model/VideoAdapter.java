@@ -45,6 +45,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoPubDate.setText("Published Date " + myVideo.getPubDate());
         holder.videoViewCount.setText("Views " + myVideo.getNumberOfViews());
         Picasso.with(mCtx).load(myVideo.getThumbnailURL()).into(holder.videoThumbnail);
+        holder.setVideoIDForPlayer(myVideo.getVideoID().toString());
     }
 
     @Override
@@ -65,16 +66,18 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoPubDate = itemView.findViewById(R.id.videoPubDate);
             videoViewCount = itemView.findViewById(R.id.videoViewCount);
 
+        }
+        public void setVideoIDForPlayer(final String vID){
             //To Play Video
             videoThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mCtx, PlayerActivity.class);
-                    intent.putExtra("VIDEO_ID", "UmxY5m89o-g" );
+                    System.out.println(vID);
+                    intent.putExtra("VIDEO_ID", vID );
                     mCtx.startActivity(intent);
                 }
             });
-
         }
     }
 }
