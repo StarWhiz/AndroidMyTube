@@ -27,11 +27,6 @@ import dbzgroup.mytube.Model.VideoAdapter;
 
 public class NavigationActivity extends AppCompatActivity {
 
-
-
-
-
-
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -46,7 +41,6 @@ public class NavigationActivity extends AppCompatActivity {
                     android.support.v4.app.FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction1.replace(R.id.content, searchFrag, "Search");
                     fragmentTransaction1.commit();
-
                     return true;
                 case R.id.navigation_favorites:
                     //FavoritesFrag favoritesFrag = new FavoritesFrag();
@@ -75,9 +69,6 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        // For RecyclerView
-
-
         //For Logging Out
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -90,13 +81,7 @@ public class NavigationActivity extends AppCompatActivity {
                 if (firebaseAuth.getCurrentUser() == null) {
                     startActivity(new Intent(NavigationActivity.this, SignIn.class));
                 }
-
             }
         };
-
-
-
     }
-
-
 }

@@ -59,8 +59,6 @@ public class SearchFrag extends Fragment {
         });
         myVideoList = new ArrayList<MyVideo>();
         handler = new Handler();
-
-
         return v;
     }
     /**
