@@ -39,7 +39,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     public void onBindViewHolder(VideoViewHolder holder, int position) {
         MyVideo myVideo = myVideoList.get(position);
         holder.videoTitle.setText(myVideo.getTitle());
-        holder.videoPubDate.setText("Published " + myVideo.getPubDate());
+        holder.videoPubDate.setText("Published Date " + myVideo.getPubDate());
         holder.videoViewCount.setText("Views " + myVideo.getNumberOfViews());
         Picasso.with(mCtx).load(myVideo.getThumbnailURL()).into(holder.videoThumbnail);
 

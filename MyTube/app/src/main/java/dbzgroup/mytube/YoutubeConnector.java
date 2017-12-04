@@ -1,19 +1,25 @@
 package dbzgroup.mytube;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.Log;
 
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.api.services.youtube.model.Video;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import dbzgroup.mytube.Model.MyVideo;
 
@@ -57,11 +63,6 @@ public class YoutubeConnector {
                 MyVideo myVideo = new MyVideo();
                 myVideo.setTitle(result.getSnippet().getTitle());
 
-
-
-
-                //myVideo.setPubDate("12/04/2017"); // Temporary solution
-
                 /**
                  * This function is needed to get ViewCount and Other Statistics
                  */
@@ -69,17 +70,13 @@ public class YoutubeConnector {
                 list.setId(result.getId().getVideoId());
                 list.setKey(KEY);
                 Video v = list.execute().getItems().get(0);
-
-
+                /**
+                 * End of Function
+                 */
 
                 myVideo.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
                 myVideo.setNumberOfViews(v.getStatistics().getViewCount().toString());
-                //myVideo.setPubDate(v.getStatus().getPublishAt().toString());
-                //myVideo.setPubDate(v.getRecordingDetails().getRecordingDate().toString());
-                //System.out.println("DATES: " + result.getSnippet().
                 myVideo.setPubDate(result.getSnippet().getPublishedAt().toString());
-
-
                 items.add(myVideo);
             }
             return items;
@@ -89,7 +86,4 @@ public class YoutubeConnector {
         }
     }
 
-    public void setOtherFields() {
-
-    }
 }
