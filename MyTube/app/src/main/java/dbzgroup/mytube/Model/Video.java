@@ -16,6 +16,8 @@ public class Video {
         this.thumbnailURL = thumbnailURL;
         this.pubDate = pubDate;
     }
+    public Video (){
+    }
 
     public String getTitle() {
         return title;
