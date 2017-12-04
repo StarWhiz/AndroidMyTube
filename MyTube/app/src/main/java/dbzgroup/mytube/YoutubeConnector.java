@@ -40,6 +40,7 @@ public class YoutubeConnector {
             query.setKey(KEY);
             query.setType("video");
             query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
+            query.setMaxResults((long)25);
         }catch(IOException e){
             Log.d("YC", "Could not initialize: "+e);
         }
@@ -56,7 +57,28 @@ public class YoutubeConnector {
                 Video video = new Video();
                 video.setTitle(result.getSnippet().getTitle());
                 //video.setPubDate(result.getSnippet().getPublishedAt().toString());
-                video.setPubDate("12/04/2017");
+
+
+                System.out.println("This is the cause of my error: " + result.getSnippet().getPublishedAt());
+                video.setPubDate("12/04/2017"); // Temporary solution
+
+
+                /**
+                 * Trying to fix problem  here
+                 */
+                result.getId().getVideoId(); // vid id is here
+                /*
+                YouTube.Videos.List list = youtube.videos().list("statistics");
+                list.setId("kffacxfA7G4");
+                list.setKey("your private API KEY");
+                Youtube.Video v = list.execute().getItems().get(0);
+                System.out.println("The view count is: "  + v.getStatistics().getViewCount());
+                */
+                /**
+                 * Trying to fix problem  here
+                 */
+
+
                 video.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
                 video.setNumberOfViews(result.getId().getVideoId());
                 items.add(video);
@@ -66,5 +88,9 @@ public class YoutubeConnector {
             Log.d("YC", "Could not search: "+e);
             return null;
         }
+    }
+
+    public void setOtherFields() {
+
     }
 }
