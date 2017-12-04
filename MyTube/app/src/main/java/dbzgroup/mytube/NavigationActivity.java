@@ -33,13 +33,11 @@ public class NavigationActivity extends AppCompatActivity {
     private VideoAdapter adapter;
     private List<Video> videoList;
 
-    private List<Video> searchResults;
+
     private EditText searchInput;
     private ImageButton searchButton;
     private Handler handler;
 
-
-    private TextView mTextMessage;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -74,17 +72,9 @@ public class NavigationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation);
 
         // For RecyclerView
-        ////videoList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        ////videoList.add(new Video("Shinobu", "62000", "www.youtube.com", "12/03/2017"));
-        ////videoList.add(new Video("Combat Arms", "21000", "www.youtube.com", "12/03/2007"));
-
-        ////adapter = new VideoAdapter(this, videoList);
-        ////recyclerView.setAdapter(adapter);
-
 
         //For Logging Out
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -105,42 +95,27 @@ public class NavigationActivity extends AppCompatActivity {
         // For Search
         searchInput = findViewById(R.id.searchInput);
         searchButton = findViewById(R.id.imageButton);
-
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchOnYoutube(searchInput.getText().toString());
             }
         });
-
         videoList = new ArrayList<Video>();
         handler = new Handler();
-        /*
-        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    System.out.println("True Condition Occurred.");
-                    searchOnYoutube(v.getText().toString());
-                    return false;
-                }
-                System.out.println("Else Condition Occurred.");
-                System.out.println(v.getText().toString());
-                //searchOnYoutube(v.getText().toString());
-                return true;
-            }
-        });
-        */
-
     }
+
+    /**
+     * This function searches videos thru the youtube API when a keyword is passed.
+     *
+     * @param keywords
+     */
 
     private void searchOnYoutube(final String keywords) {
         new Thread(){
             @Override
             public void run() {
-                System.out.println("searchOnYoutubeFunctionCalled RUNNING");
                 YoutubeConnector yc = new YoutubeConnector(NavigationActivity.this);
-                System.out.println("this is the result of search: " + yc.search(keywords));
                 videoList = yc.search(keywords);
                 handler.post(new Runnable() {
                     @Override
@@ -150,34 +125,14 @@ public class NavigationActivity extends AppCompatActivity {
                 });
             }
         }.start();
-        /////System.out.println(videoList);
-
     }
 
+    /**
+     * This function updates the view when videos are found
+     */
     private void updateVideosFound(){
         adapter = new VideoAdapter(this, videoList);
         System.out.println(videoList);
         recyclerView.setAdapter(adapter);
-
-        /*
-        ArrayAdapter<VideoItem> adapter = new ArrayAdapter<VideoItem>(getApplicationContext(), R.layout.video_item, searchResults){
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if(convertView == null){
-                    convertView = getLayoutInflater().inflate(R.layout.video_item, parent, false);
-                }
-                ImageView thumbnail = (ImageView)convertView.findViewById(R.id.video_thumbnail);
-                TextView title = (TextView)convertView.findViewById(R.id.video_title);
-                TextView description = (TextView)convertView.findViewById(R.id.video_description);
-
-                VideoItem searchResult = searchResults.get(position);
-
-                Picasso.with(getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
-                title.setText(searchResult.getTitle());
-                description.setText(searchResult.getDescription());
-                return convertView;
-            }
-        };*/
-
     }
 }
