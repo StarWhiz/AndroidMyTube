@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -33,17 +35,35 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public void onBindViewHolder(VideoViewHolder holder, int position) {
-        
+        Video video = videoList.get(position);
+        holder.videoTitle.setText(video.getTitle());
+        holder.videoPubDate.setText("Published " + video.getPubDate());
+        holder.videoViewCount.setText("Views " + video.getNumberOfViews());
+
+        //holder.videoThumbnail.setImageDrawable(mCtx.getResources().getDrawable(video.getThumbnailURL()));
+
+
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return videoList.size();
     }
 
     class VideoViewHolder extends RecyclerView.ViewHolder {
+        ImageView videoThumbnail;
+        TextView videoTitle;
+        TextView videoPubDate;
+        TextView videoViewCount;
+
         public VideoViewHolder(View itemView) {
             super(itemView);
+
+            videoThumbnail = itemView.findViewById(R.id.videoThumbnail);
+            videoTitle = itemView.findViewById(R.id.videoTitle);
+            videoPubDate = itemView.findViewById(R.id.videoPubDate);
+            videoViewCount = itemView.findViewById(R.id.videoViewCount);
+
         }
     }
 }

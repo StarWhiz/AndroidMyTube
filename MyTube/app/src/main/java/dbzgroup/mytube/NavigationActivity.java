@@ -7,13 +7,24 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dbzgroup.mytube.Model.Video;
+import dbzgroup.mytube.Model.VideoAdapter;
+
 public class NavigationActivity extends AppCompatActivity {
+    RecyclerView recyclerView;
+    VideoAdapter adapter;
+    List<Video> videoList;
 
     private TextView mTextMessage;
     private FirebaseAuth mAuth;
@@ -24,17 +35,8 @@ public class NavigationActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-            // Fragment Shanannegans ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            // Fragment Shanannegans ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
             switch (item.getItemId()) { //Fragment Selector
                 case R.id.navigation_search:
-                    // Fragment Shanannegans ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                   //transaction.replace(R.id.frame_container, new CardViewFragment()).commit();
-                    // Fragment Shanannegans ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     return true;
                 case R.id.navigation_favorites:
                     return true;
@@ -59,8 +61,21 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        // For RecyclerView
+        videoList = new ArrayList<>();
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        videoList.add(new Video("Shinobu", "62000", "www.youtube.com", "12/03/2017"));
+        videoList.add(new Video("Combat Arms", "21000", "www.youtube.com", "12/03/2007"));
+
+        adapter = new VideoAdapter(this, videoList);
+        recyclerView.setAdapter(adapter);
+
+
+        //For Logging Out
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Logout Listener
@@ -74,11 +89,5 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         };
-
-        // Fragment Shanannegans ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        //transaction.replace(R.id.frame_container, new CardViewFragment()).commit();
-        // Fragment Shanannegans ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     }
 }
