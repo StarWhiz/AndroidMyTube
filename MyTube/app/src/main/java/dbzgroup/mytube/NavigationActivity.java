@@ -69,6 +69,12 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
+        // code of default fragment
+        SearchFrag searchFrag = new SearchFrag();
+        android.support.v4.app.FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction1.replace(R.id.content, searchFrag, "Search");
+        fragmentTransaction1.commit();
+
         //For Logging Out
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
