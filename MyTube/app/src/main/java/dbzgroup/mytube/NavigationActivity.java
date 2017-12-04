@@ -27,9 +27,10 @@ import dbzgroup.mytube.Model.Video;
 import dbzgroup.mytube.Model.VideoAdapter;
 
 public class NavigationActivity extends AppCompatActivity {
-    RecyclerView recyclerView;
-    VideoAdapter adapter;
-    List<Video> videoList;
+    private RecyclerView recyclerView;
+    private VideoAdapter adapter;
+    private List<Video> videoList;
+
     private List<Video> searchResults;
     private EditText searchInput;
     private Handler handler;
@@ -57,7 +58,6 @@ public class NavigationActivity extends AppCompatActivity {
             return false;
         }
     };
-
 
     @Override
     protected void onStart() {
@@ -100,25 +100,31 @@ public class NavigationActivity extends AppCompatActivity {
         };
 
         // For Search
-        searchInput = (EditText) findViewById(R.id.searchInput);
+        searchInput = findViewById(R.id.searchInput);
         handler = new Handler();
 
         searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if(actionId == EditorInfo.IME_ACTION_DONE){
+                    System.out.println("True Condition Occurred.");
                     searchOnYoutube(v.getText().toString());
                     return false;
                 }
+                System.out.println("Else Condition Occurred.");
+                System.out.println(v.getText().toString());
+                //searchOnYoutube(v.getText().toString());
                 return true;
             }
         });
+
     }
 
     private void searchOnYoutube(final String keywords) {
         new Thread(){
             @Override
             public void run() {
+                System.out.println("searchOnYoutubeFunctionCalled RUNNING");
                 YoutubeConnector yc = new YoutubeConnector(NavigationActivity.this);
                 videoList = yc.search(keywords);
                 handler.post(new Runnable() {
@@ -129,10 +135,14 @@ public class NavigationActivity extends AppCompatActivity {
                 });
             }
         }.start();
+        System.out.println("searchOnYoutubeFunctionCalled");
+        System.out.println(videoList);
+
     }
 
     private void updateVideosFound(){
         adapter = new VideoAdapter(this, videoList);
+        System.out.println(videoList);
         recyclerView.setAdapter(adapter);
 
         /*

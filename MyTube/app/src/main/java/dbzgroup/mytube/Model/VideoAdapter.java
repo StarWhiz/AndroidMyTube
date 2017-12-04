@@ -41,8 +41,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoTitle.setText(video.getTitle());
         holder.videoPubDate.setText("Published " + video.getPubDate());
         holder.videoViewCount.setText("Views " + video.getNumberOfViews());
-
-        Picasso.with(mCtx).load(videoList.get(position).getThumbnailURL()).into(holder.videoThumbnail);
+        Picasso.with(mCtx).load(video.getThumbnailURL()).into(holder.videoThumbnail);
 
         //holder.videoThumbnail.setImageDrawable(mCtx.getResources().getDrawable(video.getThumbnailURL()));
 
