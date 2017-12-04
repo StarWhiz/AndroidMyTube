@@ -58,6 +58,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         TextView videoTitle;
         TextView videoPubDate;
         TextView videoViewCount;
+        ImageButton favButton;
+        Boolean favorited = false;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
@@ -65,7 +67,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoTitle = itemView.findViewById(R.id.videoTitle);
             videoPubDate = itemView.findViewById(R.id.videoPubDate);
             videoViewCount = itemView.findViewById(R.id.videoViewCount);
+            favButton = itemView.findViewById(R.id.starButton);
 
+            favButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!favorited) {
+                        favButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+                        favorited = true;
+                    }
+                    else {
+                        favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                    }
+
+                }
+            });
         }
         public void setVideoIDForPlayer(final String vID){
             //To Play Video
@@ -79,5 +95,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                 }
             });
         }
+
     }
 }

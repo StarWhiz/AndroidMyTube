@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -13,6 +14,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
+
+            <ImageButton
+                android:id="@+id/starButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignBaseline="@id/videoPubDate"
+                android:background="@color/transparent"
+                app:srcCompat="@drawable/ic_favorite_border_black_24dp" />
 
             <ImageButton
                 android:id="@+id/videoThumbnail"
@@ -53,6 +63,8 @@
                 android:text="Views 56990"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textStyle="bold" />
+
+
 
         </RelativeLayout>
 
