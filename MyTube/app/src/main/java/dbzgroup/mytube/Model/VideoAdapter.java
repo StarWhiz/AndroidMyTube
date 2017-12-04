@@ -21,11 +21,11 @@ import dbzgroup.mytube.R;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
     private Context mCtx;
-    private List<Video> videoList;
+    private List<MyVideo> myVideoList;
 
-    public VideoAdapter(Context mCtx, List<Video> videoList) {
+    public VideoAdapter(Context mCtx, List<MyVideo> myVideoList) {
         this.mCtx = mCtx;
-        this.videoList = videoList;
+        this.myVideoList = myVideoList;
     }
 
     @Override
@@ -37,20 +37,20 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public void onBindViewHolder(VideoViewHolder holder, int position) {
-        Video video = videoList.get(position);
-        holder.videoTitle.setText(video.getTitle());
-        holder.videoPubDate.setText("Published " + video.getPubDate());
-        holder.videoViewCount.setText("Views " + video.getNumberOfViews());
-        Picasso.with(mCtx).load(video.getThumbnailURL()).into(holder.videoThumbnail);
+        MyVideo myVideo = myVideoList.get(position);
+        holder.videoTitle.setText(myVideo.getTitle());
+        holder.videoPubDate.setText("Published " + myVideo.getPubDate());
+        holder.videoViewCount.setText("Views " + myVideo.getNumberOfViews());
+        Picasso.with(mCtx).load(myVideo.getThumbnailURL()).into(holder.videoThumbnail);
 
-        //holder.videoThumbnail.setImageDrawable(mCtx.getResources().getDrawable(video.getThumbnailURL()));
+        //holder.videoThumbnail.setImageDrawable(mCtx.getResources().getDrawable(myVideo.getThumbnailURL()));
 
 
     }
 
     @Override
     public int getItemCount() {
-        return videoList.size();
+        return myVideoList.size();
     }
 
     class VideoViewHolder extends RecyclerView.ViewHolder {

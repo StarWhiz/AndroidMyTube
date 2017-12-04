@@ -5,19 +5,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,13 +19,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-import dbzgroup.mytube.Model.Video;
+import dbzgroup.mytube.Model.MyVideo;
 import dbzgroup.mytube.Model.VideoAdapter;
 
 public class NavigationActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private VideoAdapter adapter;
-    private List<Video> videoList;
+    private List<MyVideo> myVideoList;
 
 
     private EditText searchInput;
@@ -101,7 +95,7 @@ public class NavigationActivity extends AppCompatActivity {
                 searchOnYoutube(searchInput.getText().toString());
             }
         });
-        videoList = new ArrayList<Video>();
+        myVideoList = new ArrayList<MyVideo>();
         handler = new Handler();
     }
 
@@ -116,7 +110,7 @@ public class NavigationActivity extends AppCompatActivity {
             @Override
             public void run() {
                 YoutubeConnector yc = new YoutubeConnector(NavigationActivity.this);
-                videoList = yc.search(keywords);
+                myVideoList = yc.search(keywords);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -131,8 +125,7 @@ public class NavigationActivity extends AppCompatActivity {
      * This function updates the view when videos are found
      */
     private void updateVideosFound(){
-        adapter = new VideoAdapter(this, videoList);
-        System.out.println(videoList);
+        adapter = new VideoAdapter(this, myVideoList);
         recyclerView.setAdapter(adapter);
     }
 }

@@ -4,19 +4,19 @@ package dbzgroup.mytube.Model;
  * Created by Froz on 11/29/2017.
  */
 
-public class Video {
+public class MyVideo {
     private String title;
     private String numberOfViews;
     private String thumbnailURL;
     private String pubDate;
 
-    public Video(String title, String numberOfViews, String thumbnailURL, String pubDate) {
+    public MyVideo(String title, String numberOfViews, String thumbnailURL, String pubDate) {
         this.title = title;
         this.numberOfViews = numberOfViews;
         this.thumbnailURL = thumbnailURL;
         this.pubDate = pubDate;
     }
-    public Video (){
+    public MyVideo(){
     }
 
     public String getTitle() {
