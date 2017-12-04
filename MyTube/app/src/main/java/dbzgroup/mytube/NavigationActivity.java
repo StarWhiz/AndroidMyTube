@@ -1,5 +1,6 @@
 package dbzgroup.mytube;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import dbzgroup.mytube.Fragments.FavoritesFrag;
 import dbzgroup.mytube.Model.MyVideo;
 import dbzgroup.mytube.Model.VideoAdapter;
 
@@ -44,6 +46,10 @@ public class NavigationActivity extends AppCompatActivity {
                 case R.id.navigation_search:
                     return true;
                 case R.id.navigation_favorites:
+                    FavoritesFrag favoritesFrag = new FavoritesFrag();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    //fragmentTransaction.replace
+
                     return true;
                 case R.id.navigation_logout:
                     mAuth.signOut();
@@ -86,7 +92,7 @@ public class NavigationActivity extends AppCompatActivity {
             }
         };
 
-        // For Search
+        // For SearchFrag
         searchInput = findViewById(R.id.searchInput);
         searchButton = findViewById(R.id.imageButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
