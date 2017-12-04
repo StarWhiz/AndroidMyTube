@@ -4,10 +4,32 @@
     android:layout_height="match_parent"
     tools:context="dbzgroup.mytube.Fragments.SearchFrag">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageButton xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/imageButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_gravity="right"
+        android:background="@color/colorAccent"
+        app:srcCompat="@drawable/ic_search_black_24dp"
+        />
+
+    <EditText
+        android:id="@+id/searchInput"
+        android:layout_width="303dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/search"
+        android:singleLine="true" />
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="512dp"
+        android:layout_marginTop="45dp"
+
+        />
 
 </FrameLayout>

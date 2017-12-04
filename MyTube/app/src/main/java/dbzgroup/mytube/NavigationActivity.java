@@ -1,38 +1,19 @@
 package dbzgroup.mytube;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import dbzgroup.mytube.Fragments.FavoritesFrag;
-import dbzgroup.mytube.Model.MyVideo;
-import dbzgroup.mytube.Model.VideoAdapter;
+import dbzgroup.mytube.Fragments.SearchFrag;
+
 
 public class NavigationActivity extends AppCompatActivity {
-    private RecyclerView recyclerView;
-    private VideoAdapter adapter;
-    private List<MyVideo> myVideoList;
-
-
-    private EditText searchInput;
-    private ImageButton searchButton;
-    private Handler handler;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -44,11 +25,16 @@ public class NavigationActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) { //Fragment Selector
                 case R.id.navigation_search:
+                    SearchFrag searchFrag = new SearchFrag();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction1.replace(R.id.content, searchFrag, "Search");
+                    fragmentTransaction1.commit();
                     return true;
                 case R.id.navigation_favorites:
                     FavoritesFrag favoritesFrag = new FavoritesFrag();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    //fragmentTransaction.replace
+                    android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction2.replace(R.id.content, favoritesFrag, "Favorites");
+                    fragmentTransaction2.commit();
 
                     return true;
                 case R.id.navigation_logout:
@@ -71,10 +57,11 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        // For RecyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // code of default fragment
+        SearchFrag searchFrag = new SearchFrag();
+        android.support.v4.app.FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction1.replace(R.id.content, searchFrag, "Search");
+        fragmentTransaction1.commit();
 
         //For Logging Out
         BottomNavigationView navigation = findViewById(R.id.navigation);
@@ -88,52 +75,7 @@ public class NavigationActivity extends AppCompatActivity {
                 if (firebaseAuth.getCurrentUser() == null) {
                     startActivity(new Intent(NavigationActivity.this, SignIn.class));
                 }
-
             }
         };
-
-        // For SearchFrag
-        searchInput = findViewById(R.id.searchInput);
-        searchButton = findViewById(R.id.imageButton);
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchOnYoutube(searchInput.getText().toString());
-            }
-        });
-        myVideoList = new ArrayList<MyVideo>();
-        handler = new Handler();
-
-
-    }
-
-    /**
-     * This function searches videos thru the youtube API when a keyword is passed.
-     *
-     * @param keywords
-     */
-
-    private void searchOnYoutube(final String keywords) {
-        new Thread(){
-            @Override
-            public void run() {
-                YoutubeConnector yc = new YoutubeConnector(NavigationActivity.this);
-                myVideoList = yc.search(keywords);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        updateVideosFound();
-                    }
-                });
-            }
-        }.start();
-    }
-
-    /**
-     * This function updates the view when videos are found
-     */
-    private void updateVideosFound(){
-        adapter = new VideoAdapter(this, myVideoList);
-        recyclerView.setAdapter(adapter);
     }
 }

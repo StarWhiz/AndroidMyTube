@@ -13,7 +13,7 @@ import dbzgroup.mytube.R;
  * A simple {@link Fragment} subclass.
  */
 public class FavoritesFrag extends Fragment {
-
+    private View v;
 
     public FavoritesFrag() {
         // Required empty public constructor
@@ -23,8 +23,9 @@ public class FavoritesFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        v = inflater.inflate(R.layout.fragment_favorites, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+        return v;
     }
 
 }
