@@ -1,29 +1,17 @@
 package dbzgroup.mytube;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import dbzgroup.mytube.Fragments.FavoritesFrag;
 import dbzgroup.mytube.Fragments.SearchFrag;
-import dbzgroup.mytube.Model.MyVideo;
-import dbzgroup.mytube.Model.VideoAdapter;
+
 
 public class NavigationActivity extends AppCompatActivity {
 
@@ -43,10 +31,10 @@ public class NavigationActivity extends AppCompatActivity {
                     fragmentTransaction1.commit();
                     return true;
                 case R.id.navigation_favorites:
-                    //FavoritesFrag favoritesFrag = new FavoritesFrag();
-                   // android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
-                   // fragmentTransaction2.replace(R.id.content, favoritesFrag, "Favorites");
-                   // fragmentTransaction2.commit();
+                    FavoritesFrag favoritesFrag = new FavoritesFrag();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction2.replace(R.id.content, favoritesFrag, "Favorites");
+                    fragmentTransaction2.commit();
 
                     return true;
                 case R.id.navigation_logout:
