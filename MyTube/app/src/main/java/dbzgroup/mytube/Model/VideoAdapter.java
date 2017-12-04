@@ -78,6 +78,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                     }
                     else {
                         favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                        favorited = false;
                     }
 
                 }
