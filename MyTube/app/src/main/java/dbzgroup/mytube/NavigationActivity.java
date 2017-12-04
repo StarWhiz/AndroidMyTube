@@ -2,6 +2,7 @@ package dbzgroup.mytube;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -9,7 +10,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +30,10 @@ public class NavigationActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     VideoAdapter adapter;
     List<Video> videoList;
+    private List<Video> searchResults;
+    private EditText searchInput;
+    private Handler handler;
+
 
     private TextView mTextMessage;
     private FirebaseAuth mAuth;
@@ -62,16 +71,16 @@ public class NavigationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation);
 
         // For RecyclerView
-        videoList = new ArrayList<>();
+        ////videoList = new ArrayList<>();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        videoList.add(new Video("Shinobu", "62000", "www.youtube.com", "12/03/2017"));
-        videoList.add(new Video("Combat Arms", "21000", "www.youtube.com", "12/03/2007"));
+        ////videoList.add(new Video("Shinobu", "62000", "www.youtube.com", "12/03/2017"));
+        ////videoList.add(new Video("Combat Arms", "21000", "www.youtube.com", "12/03/2007"));
 
-        adapter = new VideoAdapter(this, videoList);
-        recyclerView.setAdapter(adapter);
+        ////adapter = new VideoAdapter(this, videoList);
+        ////recyclerView.setAdapter(adapter);
 
 
         //For Logging Out
@@ -89,5 +98,62 @@ public class NavigationActivity extends AppCompatActivity {
 
             }
         };
+
+        // For Search
+        searchInput = (EditText) findViewById(R.id.searchInput);
+        handler = new Handler();
+
+        searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    searchOnYoutube(v.getText().toString());
+                    return false;
+                }
+                return true;
+            }
+        });
+    }
+
+    private void searchOnYoutube(final String keywords) {
+        new Thread(){
+            @Override
+            public void run() {
+                YoutubeConnector yc = new YoutubeConnector(NavigationActivity.this);
+                videoList = yc.search(keywords);
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateVideosFound();
+                    }
+                });
+            }
+        }.start();
+    }
+
+    private void updateVideosFound(){
+        adapter = new VideoAdapter(this, videoList);
+        recyclerView.setAdapter(adapter);
+
+        /*
+        ArrayAdapter<VideoItem> adapter = new ArrayAdapter<VideoItem>(getApplicationContext(), R.layout.video_item, searchResults){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if(convertView == null){
+                    convertView = getLayoutInflater().inflate(R.layout.video_item, parent, false);
+                }
+                ImageView thumbnail = (ImageView)convertView.findViewById(R.id.video_thumbnail);
+                TextView title = (TextView)convertView.findViewById(R.id.video_title);
+                TextView description = (TextView)convertView.findViewById(R.id.video_description);
+
+                VideoItem searchResult = searchResults.get(position);
+
+                Picasso.with(getApplicationContext()).load(searchResult.getThumbnailURL()).into(thumbnail);
+                title.setText(searchResult.getTitle());
+                description.setText(searchResult.getDescription());
+                return convertView;
+            }
+        };*/
+
     }
 }

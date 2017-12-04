@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import dbzgroup.mytube.R;
@@ -40,6 +42,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoPubDate.setText("Published " + video.getPubDate());
         holder.videoViewCount.setText("Views " + video.getNumberOfViews());
 
+        Picasso.with(mCtx).load(videoList.get(position).getThumbnailURL()).into(holder.videoThumbnail);
+
         //holder.videoThumbnail.setImageDrawable(mCtx.getResources().getDrawable(video.getThumbnailURL()));
 
 
@@ -58,7 +62,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         public VideoViewHolder(View itemView) {
             super(itemView);
-
             videoThumbnail = itemView.findViewById(R.id.videoThumbnail);
             videoTitle = itemView.findViewById(R.id.videoTitle);
             videoPubDate = itemView.findViewById(R.id.videoPubDate);
