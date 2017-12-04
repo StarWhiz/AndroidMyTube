@@ -12,8 +12,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ public class NavigationActivity extends AppCompatActivity {
 
     private List<Video> searchResults;
     private EditText searchInput;
+    private ImageButton searchButton;
     private Handler handler;
 
 
@@ -101,8 +104,18 @@ public class NavigationActivity extends AppCompatActivity {
 
         // For Search
         searchInput = findViewById(R.id.searchInput);
-        handler = new Handler();
+        searchButton = findViewById(R.id.imageButton);
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchOnYoutube(searchInput.getText().toString());
+            }
+        });
+
+        videoList = new ArrayList<Video>();
+        handler = new Handler();
+        /*
         searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -117,6 +130,7 @@ public class NavigationActivity extends AppCompatActivity {
                 return true;
             }
         });
+        */
 
     }
 
@@ -126,6 +140,7 @@ public class NavigationActivity extends AppCompatActivity {
             public void run() {
                 System.out.println("searchOnYoutubeFunctionCalled RUNNING");
                 YoutubeConnector yc = new YoutubeConnector(NavigationActivity.this);
+                System.out.println("this is the result of search: " + yc.search(keywords));
                 videoList = yc.search(keywords);
                 handler.post(new Runnable() {
                     @Override
@@ -135,8 +150,7 @@ public class NavigationActivity extends AppCompatActivity {
                 });
             }
         }.start();
-        System.out.println("searchOnYoutubeFunctionCalled");
-        System.out.println(videoList);
+        /////System.out.println(videoList);
 
     }
 

@@ -26,8 +26,7 @@ public class YoutubeConnector {
     private YouTube.Search.List query;
 
     // Your developer key goes here
-    public static final String KEY
-            = "AIzaSyAQcZqxCudMtxgUgpeSVR-xU292LAWWVXE";
+    public static final String KEY = "AIzaSyAQcZqxCudMtxgUgpeSVR-xU292LAWWVXE";
 
     public YoutubeConnector(Context content) {
         youtube = new YouTube.Builder(new NetHttpTransport(),
@@ -56,7 +55,8 @@ public class YoutubeConnector {
             for(SearchResult result:results){
                 Video video = new Video();
                 video.setTitle(result.getSnippet().getTitle());
-                video.setPubDate(result.getSnippet().getPublishedAt().toString());
+                //video.setPubDate(result.getSnippet().getPublishedAt().toString());
+                video.setPubDate("12/04/2017");
                 video.setThumbnailURL(result.getSnippet().getThumbnails().getDefault().getUrl());
                 video.setNumberOfViews(result.getId().getVideoId());
                 items.add(video);
