@@ -97,6 +97,8 @@ public class NavigationActivity extends AppCompatActivity {
         });
         myVideoList = new ArrayList<MyVideo>();
         handler = new Handler();
+
+
     }
 
     /**

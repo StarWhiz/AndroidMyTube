@@ -1,10 +1,12 @@
 package dbzgroup.mytube.Model;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import dbzgroup.mytube.PlayerActivity;
 import dbzgroup.mytube.R;
 
 /**
@@ -42,10 +45,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoPubDate.setText("Published Date " + myVideo.getPubDate());
         holder.videoViewCount.setText("Views " + myVideo.getNumberOfViews());
         Picasso.with(mCtx).load(myVideo.getThumbnailURL()).into(holder.videoThumbnail);
-
-        //holder.videoThumbnail.setImageDrawable(mCtx.getResources().getDrawable(myVideo.getThumbnailURL()));
-
-
     }
 
     @Override
@@ -54,7 +53,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     }
 
     class VideoViewHolder extends RecyclerView.ViewHolder {
-        ImageView videoThumbnail;
+        ImageButton videoThumbnail;
         TextView videoTitle;
         TextView videoPubDate;
         TextView videoViewCount;
@@ -65,6 +64,16 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoTitle = itemView.findViewById(R.id.videoTitle);
             videoPubDate = itemView.findViewById(R.id.videoPubDate);
             videoViewCount = itemView.findViewById(R.id.videoViewCount);
+
+            //To Play Video
+            videoThumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mCtx, PlayerActivity.class);
+                    intent.putExtra("VIDEO_ID", "UmxY5m89o-g" );
+                    mCtx.startActivity(intent);
+                }
+            });
 
         }
     }

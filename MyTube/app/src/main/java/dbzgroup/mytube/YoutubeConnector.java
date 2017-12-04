@@ -3,6 +3,7 @@ package dbzgroup.mytube;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.Log;
+import android.widget.ImageButton;
 
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -30,6 +31,7 @@ import dbzgroup.mytube.Model.MyVideo;
 public class YoutubeConnector {
     private YouTube youtube;
     private YouTube.Search.List query;
+    private ImageButton thumbnailButton;
 
     // Your developer key goes here
     public static final String KEY = "AIzaSyAQcZqxCudMtxgUgpeSVR-xU292LAWWVXE";
@@ -78,6 +80,7 @@ public class YoutubeConnector {
                 myVideo.setNumberOfViews(v.getStatistics().getViewCount().toString());
                 myVideo.setPubDate(result.getSnippet().getPublishedAt().toString());
                 items.add(myVideo);
+
             }
             return items;
         }catch(IOException e){
