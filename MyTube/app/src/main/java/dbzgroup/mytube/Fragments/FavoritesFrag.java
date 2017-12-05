@@ -29,6 +29,12 @@ public class FavoritesFrag extends Fragment {
     private List<MyVideo> myVideoList;
     private VideoAdapter adapter;
 
+    /**
+     * Here I want to display all videos in a recyclerView that are in the user's playlist called "SJSU-CMPE-137" from their own channel.
+     *
+     * This playlist was supposed to be created in VideoAdapter.java and it was called from SearchFrag.java
+     *  (It was to be created when the <3 ImageButton was pressed)
+     */
 
 
     public FavoritesFrag() {

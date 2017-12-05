@@ -80,8 +80,15 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoTitle = itemView.findViewById(R.id.videoTitle);
             videoPubDate = itemView.findViewById(R.id.videoPubDate);
             videoViewCount = itemView.findViewById(R.id.videoViewCount);
-            favButton = itemView.findViewById(R.id.starButton);
 
+
+            /**
+             * Do Something with favorites Button.... When pressed I want to add the video favorited into a playlist called "SJSU-CMPE-137".
+             * If the playlist doesn't exist it creates that playlist under the user's account..
+             *
+             * Next see FavoritesFrag.java...
+             */
+            favButton = itemView.findViewById(R.id.starButton);
             favButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
