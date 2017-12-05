@@ -9,9 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.squareup.picasso.Picasso;
 
 
@@ -38,6 +43,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private Context mCtx;
     private List<MyVideo> myVideoList;
     private static YouTube youtube; //global instance of youtube object
+    private View view;
 
     public VideoAdapter(Context mCtx, List<MyVideo> myVideoList) {
         this.mCtx = mCtx;
@@ -47,7 +53,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mCtx);
-        View view = inflater.inflate(R.layout.video_card_view, null);
+        view = inflater.inflate(R.layout.video_card_view, null);
         return new VideoViewHolder(view);
     }
 
@@ -76,6 +82,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
         public VideoViewHolder(View itemView) {
             super(itemView);
+
             videoThumbnail = itemView.findViewById(R.id.videoThumbnail);
             videoTitle = itemView.findViewById(R.id.videoTitle);
             videoPubDate = itemView.findViewById(R.id.videoPubDate);
@@ -88,35 +95,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                     if (!favorited) {
                         favButton.setImageResource(R.drawable.ic_favorite_black_24dp);
                         favorited = true;
-
-                        List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
-                        try {
-                            // Authorize the request.
-                            Credential credential = Auth.authorize(scopes, "playlistupdates");
-
-                            // This object is used to make YouTube Data API requests.
-                            youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, credential)
-                                    .setApplicationName("youtube-cmdline-playlistupdates-sample")
-                                    .build();
-
-                            // Create a new, private playlist in the authorized user's channel.
-                            String playlistId = insertPlaylist();
-
-                            // If a valid playlist was created, add a video to that playlist.
-                            insertPlaylistItem(playlistId, VIDEO_ID);
-
-                        } catch (GoogleJsonResponseException e) {
-                            System.err.println("There was a service error: " + e.getDetails().getCode() + " : " + e.getDetails().getMessage());
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            System.err.println("IOException: " + e.getMessage());
-                            e.printStackTrace();
-                        } catch (Throwable t) {
-                            System.err.println("Throwable: " + t.getMessage());
-                            t.printStackTrace();
-                        }
-
-
                     }
                     else {
                         favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
@@ -141,84 +119,47 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     }
 
-    /**
-     * Create a playlist and add it to the authorized account.
-     */
-    private static String insertPlaylist() throws IOException {
+    public void performPlaylistOP () {
+        youtube = new YouTube.Builder(new NetHttpTransport(),
+                new JacksonFactory(), new HttpRequestInitializer() {
+            @Override
+            public void initialize(com.google.api.client.http.HttpRequest request) throws IOException {
+            }
+        }).setApplicationName(view.getContext().getString(R.string.app_name)).build();
 
-        // This code constructs the playlist resource that is being inserted.
-        // It defines the playlist's title, description, and privacy status.
-        PlaylistSnippet playlistSnippet = new PlaylistSnippet();
-        playlistSnippet.setTitle("Test Playlist " + Calendar.getInstance().getTime());
-        playlistSnippet.setDescription("A private playlist created with the YouTube API v3");
-        PlaylistStatus playlistStatus = new PlaylistStatus();
-        playlistStatus.setPrivacyStatus("private");
+        try {
+            HashMap<String, String> parameters = new HashMap<>();
+            parameters.put("part", "snippet,contentDetails");
+            parameters.put("mine", "true");
+            parameters.put("maxResults", "15");
+            parameters.put("onBehalfOfContentOwner", "");
+            parameters.put("onBehalfOfContentOwnerChannel", "");
 
-        Playlist youTubePlaylist = new Playlist();
-        youTubePlaylist.setSnippet(playlistSnippet);
-        youTubePlaylist.setStatus(playlistStatus);
+            YouTube.Playlists.List playlistsListMineRequest = youtube.playlists().list(parameters.get("part").toString());
+            if (parameters.containsKey("mine") && parameters.get("mine") != "") {
+                boolean mine = (parameters.get("mine") == "true") ? true : false;
+                playlistsListMineRequest.setMine(mine);
+            }
 
-        // Call the API to insert the new playlist. In the API call, the first
-        // argument identifies the resource parts that the API response should
-        // contain, and the second argument is the playlist being inserted.
-        YouTube.Playlists.Insert playlistInsertCommand =
-                youtube.playlists().insert("snippet,status", youTubePlaylist);
-        Playlist playlistInserted = playlistInsertCommand.execute();
+            if (parameters.containsKey("maxResults")) {
+                playlistsListMineRequest.setMaxResults(Long.parseLong(parameters.get("maxResults").toString()));
+            }
 
-        // Print data from the API response and return the new playlist's
-        // unique playlist ID.
-        System.out.println("New Playlist name: " + playlistInserted.getSnippet().getTitle());
-        System.out.println(" - Privacy: " + playlistInserted.getStatus().getPrivacyStatus());
-        System.out.println(" - Description: " + playlistInserted.getSnippet().getDescription());
-        System.out.println(" - Posted: " + playlistInserted.getSnippet().getPublishedAt());
-        System.out.println(" - Channel: " + playlistInserted.getSnippet().getChannelId() + "\n");
-        return playlistInserted.getId();
+            if (parameters.containsKey("onBehalfOfContentOwner") && parameters.get("onBehalfOfContentOwner") != "") {
+                playlistsListMineRequest.setOnBehalfOfContentOwner(parameters.get("onBehalfOfContentOwner").toString());
+            }
+
+            if (parameters.containsKey("onBehalfOfContentOwnerChannel") && parameters.get("onBehalfOfContentOwnerChannel") != "") {
+                playlistsListMineRequest.setOnBehalfOfContentOwnerChannel(parameters.get("onBehalfOfContentOwnerChannel").toString());
+            }
+            PlaylistListResponse response = playlistsListMineRequest.execute();
+            System.out.println(response);
+
+        } catch (GoogleJsonResponseException e) {
+            e.printStackTrace();
+            System.err.println("There was a service error: " + e.getDetails().getCode() + " : " + e.getDetails().getMessage());
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
     }
-
-    /**
-     * Create a playlist item with the specified video ID and add it to the
-     * specified playlist.
-     *
-     * @param playlistId assign to newly created playlistitem
-     * @param videoId    YouTube video id to add to playlistitem
-     */
-    private static String insertPlaylistItem(String playlistId, String videoId) throws IOException {
-
-        // Define a resourceId that identifies the video being added to the
-        // playlist.
-        ResourceId resourceId = new ResourceId();
-        resourceId.setKind("youtube#video");
-        resourceId.setVideoId(videoId);
-
-        // Set fields included in the playlistItem resource's "snippet" part.
-        PlaylistItemSnippet playlistItemSnippet = new PlaylistItemSnippet();
-        playlistItemSnippet.setTitle("First video in the test playlist");
-        playlistItemSnippet.setPlaylistId(playlistId);
-        playlistItemSnippet.setResourceId(resourceId);
-
-        // Create the playlistItem resource and set its snippet to the
-        // object created above.
-        PlaylistItem playlistItem = new PlaylistItem();
-        playlistItem.setSnippet(playlistItemSnippet);
-
-        // Call the API to add the playlist item to the specified playlist.
-        // In the API call, the first argument identifies the resource parts
-        // that the API response should contain, and the second argument is
-        // the playlist item being inserted.
-        YouTube.PlaylistItems.Insert playlistItemsInsertCommand =
-                youtube.playlistItems().insert("snippet,contentDetails", playlistItem);
-        PlaylistItem returnedPlaylistItem = playlistItemsInsertCommand.execute();
-
-        // Print data from the API response and return the new playlist
-        // item's unique playlistItem ID.
-
-        System.out.println("New PlaylistItem name: " + returnedPlaylistItem.getSnippet().getTitle());
-        System.out.println(" - Video id: " + returnedPlaylistItem.getSnippet().getResourceId().getVideoId());
-        System.out.println(" - Posted: " + returnedPlaylistItem.getSnippet().getPublishedAt());
-        System.out.println(" - Channel: " + returnedPlaylistItem.getSnippet().getChannelId());
-        return returnedPlaylistItem.getId();
-
-    }
-}
-
 }
