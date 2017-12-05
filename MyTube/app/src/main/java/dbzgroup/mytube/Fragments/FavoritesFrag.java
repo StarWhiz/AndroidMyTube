@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.google.api.services.youtube.YouTube;
+
 import java.util.List;
 
 import dbzgroup.mytube.Model.MyVideo;
@@ -27,6 +29,8 @@ public class FavoritesFrag extends Fragment {
     private List<MyVideo> myVideoList;
     private VideoAdapter adapter;
 
+
+
     public FavoritesFrag() {
         // Required empty public constructor
     }
@@ -36,7 +40,9 @@ public class FavoritesFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_favorites, container, false);
-        // Inflate the layout for this fragment
+
+
+
         return v;
     }
 
