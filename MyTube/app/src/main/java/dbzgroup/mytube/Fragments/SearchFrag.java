@@ -90,5 +90,4 @@ public class SearchFrag extends Fragment {
         adapter = new VideoAdapter(v.getContext(), myVideoList);
         recyclerView.setAdapter(adapter);
     }
-
 }
