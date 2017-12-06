@@ -12,6 +12,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 
@@ -38,6 +40,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private Context mCtx;
     private List<MyVideo> myVideoList;
     private static YouTube youtube; //global instance of youtube object
+
+    private FirebaseDatabase database;
+    private DatabaseReference favoritesVidsList;
 
     public VideoAdapter(Context mCtx, List<MyVideo> myVideoList) {
         this.mCtx = mCtx;
