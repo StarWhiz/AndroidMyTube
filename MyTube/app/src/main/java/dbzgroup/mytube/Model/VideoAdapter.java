@@ -59,6 +59,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoViewCount.setText("Views " + myVideo.getNumberOfViews());
         Picasso.with(mCtx).load(myVideo.getThumbnailURL()).into(holder.videoThumbnail);
         holder.setVideoIDForPlayer(myVideo.getVideoID().toString());
+        holder.setFavoriteListener(position); //pass position...
     }
 
     @Override
@@ -74,6 +75,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         ImageButton favButton;
         Boolean favorited = false;
 
+        /**
+         * Contains one card view.
+         * @param itemView
+         */
         public VideoViewHolder(View itemView) {
             super(itemView);
             videoThumbnail = itemView.findViewById(R.id.videoThumbnail);
@@ -81,28 +86,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoPubDate = itemView.findViewById(R.id.videoPubDate);
             videoViewCount = itemView.findViewById(R.id.videoViewCount);
 
-
-            /**
-             * Do Something with favorites Button.... When pressed I want to add the video favorited into a playlist called "SJSU-CMPE-137".
-             * If the playlist doesn't exist it creates that playlist under the user's account..
-             *
-             * Next see FavoritesFrag.java...
-             */
-            favButton = itemView.findViewById(R.id.starButton);
-            favButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!favorited) {
-                        favButton.setImageResource(R.drawable.ic_favorite_black_24dp);
-                        favorited = true;
-                    }
-                    else {
-                        favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-                        favorited = false;
-                    }
-
-                }
-            });
         }
         public void setVideoIDForPlayer(final String vID){
             //To Play Video
@@ -117,6 +100,29 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             });
         }
 
+        /**
+         * Do Something with favorites Button.... When pressed I want to add the video favorited into a playlist called "SJSU-CMPE-137".
+         * If the playlist doesn't exist it creates that playlist under the user's account.
+         *
+         * ADD VIDEO TO DATABASE...
+         */
+        public void setFavoriteListener(final int position) {
+            favButton = itemView.findViewById(R.id.starButton);
+            favButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (!favorited) {
+                        favButton.setImageResource(R.drawable.ic_favorite_black_24dp);
+                        favorited = true;
+                        MyVideo myVideo = myVideoList.get(position); //now add this part into firebase database
+                    }
+                    else {
+                        favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+                        favorited = false;
+                    }
+                }
+            });
+        }
     }
 }
 
