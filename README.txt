@@ -39,18 +39,24 @@ Basic App Usage
 	It will take a while for videos to load ~ 5-10 seconds.
 4. To play a video you searched... tap on the picture of the video you want to play.
 5. To add a video to you favorites playlist called 'SJSU-CMPE-137' press the heart icon next to that searched video.
-	It should be filled now. To unfavorite repeat the same action.
-6.
-7. To view your favorite' playlist called "SJSU-CMPE-137" click on the favorites tab next to the search tab.
+	if this one does by mistake user can unfavorite by repeating the same action.
+6. To view your favorites playlist called "SJSU-CMPE-137" click on the favorites tab next to the search tab.
+7. To delete videos from your favorites playlist just press on the trash can icon on the items you want to delete.
 8. To Logout press the "Log Out" button on the bottom.
 
 
 Contributions
 *************
-Tai did the search, VideoPlayer activity, MyVideo data structure, VideoAdapter for recyclerView, and, youtube connector (to communicate with google youtube APIs).
+Tai did the Favorites tab, VideoPlayer activity, VideoAdapter for recyclerView, and, youtubeConnector (to communicate with google youtube APIs). Implemented deletion of videos from playlists. 
 
-Jose did the favorites tab.
+Jose did most of the searching youtube video features. Helped me with video deletion from playlist
 
-Nathan did the google sign-in.
+Nathan did the google sign-in and authorization. Created the myVideo data structure.
 
-Chastin did the navigation layout.
+Chastin did the navigation layout and a little bit of the searching video features.
+
+Comments
+********
+We did our best with deletion please don't deduct points for not doing it the same way as specified in the lab description (with multiple check boxes). Plus our app didn't have an action bar to begin with. It was the hardest part and we got deletion working in a similar way. Please accept this alternative.
+
+thank you!

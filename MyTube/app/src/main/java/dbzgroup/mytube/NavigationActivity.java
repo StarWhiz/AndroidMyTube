@@ -33,14 +33,12 @@ public class NavigationActivity extends AppCompatActivity {
                     android.support.v4.app.FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction1.replace(R.id.content, searchFrag, "Search");
                     fragmentTransaction1.commit();
-
                     return true;
                 case R.id.navigation_favorites:
                     FavoritesFrag favoritesFrag = new FavoritesFrag();
                     android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction2.replace(R.id.content, favoritesFrag, "Favorites");
                     fragmentTransaction2.commit();
-
                     return true;
                 case R.id.navigation_logout:
                     mAuth.signOut();
@@ -63,13 +61,14 @@ public class NavigationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_navigation);
 
         // code of default fragment
-        SearchFrag searchFrag = new SearchFrag();
-        android.support.v4.app.FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction1.replace(R.id.content, searchFrag, "Search");
-        fragmentTransaction1.commit();
+        FavoritesFrag favoritesFrag = new FavoritesFrag();
+        android.support.v4.app.FragmentTransaction fragmentTransaction2 = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction2.replace(R.id.content, favoritesFrag, "Favorites");
+        fragmentTransaction2.commit();
 
         //For Logging Out
         BottomNavigationView navigation = findViewById(R.id.navigation);
+        navigation.getMenu().findItem(R.id.navigation_favorites).setChecked(true);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         // Logout Listener
