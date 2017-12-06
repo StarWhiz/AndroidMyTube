@@ -147,11 +147,9 @@ public class VideoAdapterFavorites extends RecyclerView.Adapter<VideoAdapterFavo
                     MyVideo video = videoItem.getValue(MyVideo.class); // This is the request object.
                     childKey_list.put(video.getVideoID(), videoItem.getKey());
                 }
-                System.out.println("Child Key list is: " + childKey_list); // YES
-
+                //System.out.println("Child Key list is: " + childKey_list); // YES
                 String vidToDelete = video.getVideoID();
                 if (childKey_list.get(vidToDelete) != null) {
-                    System.out.println(" HEY DID THIS DELETE HAPPEN");
                     String childIDfound = childKey_list.get(vidToDelete);
                     mDatabase.child(user.getUid()).child("favorites").child(childIDfound).setValue(null);
                 }
