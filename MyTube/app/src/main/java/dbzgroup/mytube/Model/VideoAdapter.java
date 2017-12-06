@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.List;
 
 import com.google.android.gms.auth.api.Auth;
@@ -132,10 +134,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                         favButton.setImageResource(R.drawable.ic_favorite_black_24dp);
                         favorited = true;
 
-
-                        System.out.println("IS IT NULL ITS NOT YAY 2: " + user.getUid());
                         MyVideo myVideo = myVideoList.get(position); //now add this part into firebase database
                         mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideo);
+                        Toast.makeText(mCtx, "Added to SJSU-CMPE-137 Playlist...", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
@@ -145,7 +146,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                         MyVideo myVideo = myVideoList.get(position); //now remove this part from the firebase database
                         mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideo);
                         */
-
+                        Toast.makeText(mCtx, "Removed from SJSU-CMPE-137 Playlist...", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
