@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import com.google.android.gms.auth.api.Auth;
@@ -18,8 +20,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 
@@ -52,6 +57,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+
+    private HashMap<String, String> childKey_list = new HashMap<String, String>();
 
     public VideoAdapter(Context mCtx, List<MyVideo> myVideoList) {
         this.mCtx = mCtx;
@@ -134,23 +141,47 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                         favButton.setImageResource(R.drawable.ic_favorite_black_24dp);
                         favorited = true;
 
-                        MyVideo myVideo = myVideoList.get(position); //now add this part into firebase database
-                        mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideo);
+                        MyVideo myVideoAdd = myVideoList.get(position); //now add this part into firebase database
+                        mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideoAdd);
                         Toast.makeText(mCtx, "Added to SJSU-CMPE-137 Playlist...", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         favorited = false;
-                        /*
-                        System.out.println("IS IT NULL ITS NOT YAY 2: " + user.getUid());
-                        MyVideo myVideo = myVideoList.get(position); //now remove this part from the firebase database
-                        mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideo);
-                        */
+                        MyVideo myVideoDelete = myVideoList.get(position);
+                        deleteVideoFromDB(mDatabase.child(user.getUid()).child("favorites"), myVideoDelete);
                         Toast.makeText(mCtx, "Removed from SJSU-CMPE-137 Playlist...", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+
+    /**
+     * Given a video deletes video from database....
+     * @param db
+     */
+    private synchronized void deleteVideoFromDB (DatabaseReference db, final MyVideo video) {
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
+                while(dataSnapshots.hasNext()) {
+                    DataSnapshot videoItem = dataSnapshots.next();
+                    MyVideo video = videoItem.getValue(MyVideo.class); // This is the request object.
+                    childKey_list.put(video.getVideoID(), videoItem.getKey());
+                }
+                //System.out.println("Child Key list is: " + childKey_list); // YES
+                String vidToDelete = video.getVideoID();
+                if (childKey_list.get(vidToDelete) != null) {
+                    String childIDfound = childKey_list.get(vidToDelete);
+                    mDatabase.child(user.getUid()).child("favorites").child(childIDfound).setValue(null);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }
 

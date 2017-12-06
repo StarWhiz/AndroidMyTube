@@ -134,7 +134,7 @@ public class VideoAdapterFavorites extends RecyclerView.Adapter<VideoAdapterFavo
     }
 
     /**
-     * Load favorites from database into myVideoList. Then calls the adapter with updateVideosFromDB();
+     * Given a video deletes video from database....
      * @param db
      */
     private synchronized void deleteVideoFromDB (DatabaseReference db, final MyVideo video) {
