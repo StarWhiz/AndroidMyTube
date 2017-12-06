@@ -122,12 +122,9 @@ public class VideoAdapterFavorites extends RecyclerView.Adapter<VideoAdapterFavo
                 public void onClick(View view) {
                     //TODO: REMOVE FUNCTION HERE
                     MyVideo myVideo = myVideoList.get(position); //now remove this part from the firebase database
-                    myVideo.getVideoID();
-
-                    getFavChildrenFromDB(mDatabase.child(user.getUid()).child("favorites")); //loads all keys into childKey_list
-
-
-                    //mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideo);
+                    deleteVideoFromDB(mDatabase.child(user.getUid()).child("favorites"), myVideo); // deletes the video selected from the database
+                    myVideoList.remove(position);
+                    notifyDataSetChanged();
 
                     Toast.makeText(mCtx, "Video Deleted From Playlist...", Toast.LENGTH_SHORT).show();
                 }
@@ -140,24 +137,24 @@ public class VideoAdapterFavorites extends RecyclerView.Adapter<VideoAdapterFavo
      * Load favorites from database into myVideoList. Then calls the adapter with updateVideosFromDB();
      * @param db
      */
-    private synchronized void getFavChildrenFromDB (DatabaseReference db) {
+    private synchronized void deleteVideoFromDB (DatabaseReference db, final MyVideo video) {
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                /*
-                for (DataSnapshot p : dataSnapshot.getChildren()) {
-                    String childKey = p.getKey();
-                    childKey_list.put(childKey)
-                }*/
-                // getFavChildrenFromDB(mDatabase.child(user.getUid()).child("favorites"));
                 Iterator<DataSnapshot> dataSnapshots = dataSnapshot.getChildren().iterator();
                 while(dataSnapshots.hasNext()) {
                     DataSnapshot videoItem = dataSnapshots.next();
                     MyVideo video = videoItem.getValue(MyVideo.class); // This is the request object.
-                    String childKey = dataSnapshots.next().getKey();
-                    childKey_list.put(video.getVideoID(), childKey);
+                    childKey_list.put(video.getVideoID(), videoItem.getKey());
                 }
                 System.out.println("Child Key list is: " + childKey_list); // YES
+
+                String vidToDelete = video.getVideoID();
+                if (childKey_list.get(vidToDelete) != null) {
+                    System.out.println(" HEY DID THIS DELETE HAPPEN");
+                    String childIDfound = childKey_list.get(vidToDelete);
+                    mDatabase.child(user.getUid()).child("favorites").child(childIDfound).setValue(null);
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
