@@ -10,4 +10,14 @@
         android:layout_height="match_parent"
         android:layout_marginTop="45dp"
         />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:text="SJSU-CMPE-137 Playlist"
+        android:textSize="25sp"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:background="@color/colorPrimary"/>
 </FrameLayout>

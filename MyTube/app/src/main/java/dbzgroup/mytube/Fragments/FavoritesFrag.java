@@ -29,6 +29,7 @@ import java.util.List;
 
 import dbzgroup.mytube.Model.MyVideo;
 import dbzgroup.mytube.Model.VideoAdapter;
+import dbzgroup.mytube.Model.VideoAdapterFavorites;
 import dbzgroup.mytube.R;
 
 /**
@@ -39,7 +40,7 @@ public class FavoritesFrag extends Fragment {
     private RecyclerView recyclerView;
     private Handler handler;
     private List<MyVideo> myVideoList;
-    private VideoAdapter adapter;
+    private VideoAdapterFavorites adapter;
 
     FirebaseDatabase database;
     DatabaseReference mDatabase;
@@ -92,12 +93,12 @@ public class FavoritesFrag extends Fragment {
      * function to put the data loaded into the adapter...
      */
     private synchronized void updateVideosFromDB(){
-        adapter = new VideoAdapter(v.getContext(), myVideoList);
+        adapter = new VideoAdapterFavorites(v.getContext(), myVideoList);
         recyclerView.setAdapter(adapter);
     }
 
     /**
-     * Load favorites from database into myVideoList
+     * Load favorites from database into myVideoList. Then calls the adapter with updateVideosFromDB();
      * @param db
      */
     private synchronized void loadFavsFromDatabase (DatabaseReference db) {
@@ -108,11 +109,7 @@ public class FavoritesFrag extends Fragment {
                 while(dataSnapshots.hasNext()) {
                     DataSnapshot videoItem = dataSnapshots.next();
                     MyVideo video = videoItem.getValue(MyVideo.class); // This is the request object.
-                    //if(video.getUserId().equals(currentUser)) {
-                        System.out.println("Video fulfilled video is: " + video.getTitle());
                         myVideoList.add(video);
-                        //System.out.println("This is the order " + order);
-                    //}
                 }
                 System.out.println("Video list is: " + myVideoList);
                 updateVideosFromDB();
