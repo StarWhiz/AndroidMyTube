@@ -12,6 +12,10 @@ import android.widget.TextView;
 import java.util.List;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -30,6 +34,7 @@ import java.util.List;
 
 import dbzgroup.mytube.PlayerActivity;
 import dbzgroup.mytube.R;
+import dbzgroup.mytube.SignIn;
 
 /**
  * Created by Froz on 12/3/2017.
@@ -42,7 +47,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     private static YouTube youtube; //global instance of youtube object
 
     private FirebaseDatabase database;
-    private DatabaseReference favoritesVidsList;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     public VideoAdapter(Context mCtx, List<MyVideo> myVideoList) {
         this.mCtx = mCtx;
@@ -51,6 +58,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+
         LayoutInflater inflater = LayoutInflater.from(mCtx);
         View view = inflater.inflate(R.layout.video_card_view, null);
         return new VideoViewHolder(view);
@@ -63,6 +73,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         holder.videoPubDate.setText("Published Date " + myVideo.getPubDate());
         holder.videoViewCount.setText("Views " + myVideo.getNumberOfViews());
         Picasso.with(mCtx).load(myVideo.getThumbnailURL()).into(holder.videoThumbnail);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         holder.setVideoIDForPlayer(myVideo.getVideoID().toString());
         holder.setFavoriteListener(position); //pass position...
     }
@@ -119,11 +131,21 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
                     if (!favorited) {
                         favButton.setImageResource(R.drawable.ic_favorite_black_24dp);
                         favorited = true;
+
+
+                        System.out.println("IS IT NULL ITS NOT YAY 2: " + user.getUid());
                         MyVideo myVideo = myVideoList.get(position); //now add this part into firebase database
+                        mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideo);
                     }
                     else {
                         favButton.setImageResource(R.drawable.ic_favorite_border_black_24dp);
                         favorited = false;
+                        /*
+                        System.out.println("IS IT NULL ITS NOT YAY 2: " + user.getUid());
+                        MyVideo myVideo = myVideoList.get(position); //now remove this part from the firebase database
+                        mDatabase.child(user.getUid()).child("favorites").push().setValue(myVideo);
+                        */
+
                     }
                 }
             });

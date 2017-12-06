@@ -8,7 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import dbzgroup.mytube.Fragments.FavoritesFrag;
 import dbzgroup.mytube.Fragments.SearchFrag;
 
@@ -29,6 +33,7 @@ public class NavigationActivity extends AppCompatActivity {
                     android.support.v4.app.FragmentTransaction fragmentTransaction1 = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction1.replace(R.id.content, searchFrag, "Search");
                     fragmentTransaction1.commit();
+
                     return true;
                 case R.id.navigation_favorites:
                     FavoritesFrag favoritesFrag = new FavoritesFrag();

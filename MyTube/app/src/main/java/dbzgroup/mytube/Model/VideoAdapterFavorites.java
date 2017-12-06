@@ -92,6 +92,35 @@ public class VideoAdapterFavorites extends RecyclerView.Adapter<VideoAdapterFavo
             });
         }
     }
+
+    /**
+     * Load myvideo list data structure with this function wait didn't i have this function in video adapter already hmm...
+     */
+    /*
+    private synchronized void loadListFood() {
+        adapter = new FirebaseRecyclerAdapter<Food, HistoryHolder>(Food.class,R.layout.history_layout,HistoryHolder.class,orderHistoryList.orderByChild("userId").equalTo(Common.currentUser.getId())) {
+            @Override
+            protected void populateViewHolder(HistoryHolder viewHolder, Food model, int position) {
+                viewHolder.cart_item_name.setText(model.getName());
+                viewHolder.cart_item_price.setText(model.getPrice());
+                viewHolder.cart_item_quantity.setText(aOrderList.get(position).getQuantity());
+
+
+                Picasso.with(getBaseContext()).load(model.getImage()).into(viewHolder.food_image);
+                final Food local = model;
+                viewHolder.setItemClickListener(new ItemClickListener() {
+                    @Override
+                    public void onClick(View view, int position, boolean isLongClick) {
+                        Intent foodDetail = new Intent(com.example.nguye.minisafeway.HistoryList.this, FoodDetail.class);
+                        foodDetail.putExtra("FoodId",aOrderList.get(position).getFoodId()); //// bad
+                        startActivity(foodDetail);
+                    }
+                });
+            }
+        };
+        recyclerView.setAdapter(adapter);
+    }
+    */
 }
 
 
