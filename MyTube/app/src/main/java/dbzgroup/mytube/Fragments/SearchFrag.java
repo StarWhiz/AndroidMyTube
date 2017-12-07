@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,7 @@ public class SearchFrag extends Fragment {
             @Override
             public void onClick(View view) {
                 searchOnYoutube(searchInput.getText().toString());
+                Toast.makeText(v.getContext(), "Searching.. Please Wait", Toast.LENGTH_SHORT).show();
             }
         });
         myVideoList = new ArrayList<MyVideo>();
