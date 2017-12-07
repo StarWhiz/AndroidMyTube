@@ -46,7 +46,7 @@ Google Play otherwise it will not work.
 Then Do Run > 'Run app'
 
 
-Using Phone ...........
+Using Signed APK on an android phone ...........
 
 Alternatively, install the .apk file onto your own Android phone by copying it to your phone. Then use 
 a dedicated file manager for your phone like 'ES File Explorer' and find the apk you copied. Then install
@@ -57,6 +57,8 @@ requirement of using the Youtube API's from Google.
 
 Basic App Usage
 *****************************************************************************************************
+Must be CONNECTED to the INTERNET for this app to work.
+
 1. Click the Google 'Sign in' button and sign in with your selected Google account.
 2. The favorites page is the main page it displays playlist called "SJSU-CMPE-137" or creates it if you don't have one yet.
 3. To search for videos tap the search tab. Then Type in some search terms in the search bar... then tap the magnifying glass. It will take a while for videos to load ~ 5-10 seconds.
@@ -77,7 +79,7 @@ Jose did most of the searching youtube video features. Helped me with video dele
 
 Nathan did the google sign-in and authorization. Created the myVideo data structure.
 
-Chastin did the navigation layout and a little bit of the searching video features.
+Chastin did the navigation layout and a little bit of the searching video features. Helped with signing APK.
 
 Comments
 ********
