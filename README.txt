@@ -2,20 +2,6 @@ DBZ Project Members
 *****************************************************************************************************
 Name: Tai Dao
 SID: 006769100
-Email: taidao90@gmail.com
-
-Name: Jose Quan
-SID: 009297119
-Email: josejaimeq@gmail.com
-
-Name: Nathan Lin
-SID: 009942621
-Email: nathanlin2046@gmail.com
-
-Name: Chastin Gammage
-SID: 0008419333
-Email: chastin.gammage@gmail.com
-
 
 How to Build App
 *****************************************************************************************************
@@ -71,18 +57,8 @@ Must be CONNECTED to the INTERNET for this app to work.
 9. To Logout press the "Log Out" button on the bottom.
 
 
-Contributions
-*************
-Tai did the Favorites tab, VideoPlayer activity, VideoAdapter for recyclerView, and, youtubeConnector (to communicate with google youtube APIs). Implemented deletion of videos from playlists. 
-
-Jose did most of the searching youtube video features. Helped me with video deletion from playlist
-
-Nathan did the google sign-in and authorization. Created the myVideo data structure.
-
-Chastin did the navigation layout and a little bit of the searching video features. Helped with signing APK.
-
 Comments
 ********
-We did our best with deletion please don't deduct points for not doing it the same way as specified in the lab description (with multiple check boxes). Plus our app didn't have an action bar to begin with. It was the hardest part and we got deletion working in a similar way. Please accept this alternative it's still pretty fast to delete multiple videos as you can see.
+I did my best with deletion please don't deduct points for not doing it the same way as specified in the lab description (with multiple check boxes). Plus our app didn't have an action bar to begin with. It was the hardest part and I got deletion working in a similar way. Please accept this alternative it's still pretty fast to delete multiple videos as you can see.
 
 Thank you!
